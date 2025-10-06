@@ -60,6 +60,7 @@
                     <path>/</path>
                     <port>8080</port>
                 </configuration>
+
             </plugin>
         </plugins>
     </build>
