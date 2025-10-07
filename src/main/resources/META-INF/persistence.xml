@@ -12,8 +12,10 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <!-- List of managed entities -->
-<!--        <class>com.example.model.User</class>-->
-<!--        <class>com.example.model.Product</class>-->
+        <class>com.example.bbm.entity.Person</class>
+        <class>com.example.bbm.entity.Donor</class>
+        <class>com.example.bbm.entity.Recipient</class>
+        <class>com.example.bbm.entity.DonationAssociation</class>
 
         <!-- Database connection configuration -->
         <properties>
