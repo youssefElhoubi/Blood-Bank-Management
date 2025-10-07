@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
-    <persistence-unit name="default">
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+
+    <!-- Define a persistence unit -->
+    <persistence-unit name="myPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+
+        <!-- Specify the JPA provider (Hibernate) -->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <!-- List of managed entities -->
+<!--        <class>com.example.model.User</class>-->
+<!--        <class>com.example.model.Product</class>-->
+
+        <!-- Database connection configuration -->
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:3307/bbm"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="123"/>
+
+            <!-- Hibernate-specific settings -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+        </properties>
 
     </persistence-unit>
 </persistence>
