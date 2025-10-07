@@ -5,7 +5,6 @@ import com.example.bbm.enums.DonorStatus;
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "donor")

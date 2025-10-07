@@ -36,8 +36,7 @@ public class Recipient extends Person {
 
     @Column(name = "satisfied_date")
     private LocalDateTime satisfiedDate;
-    @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL)
-    private List<DonationAssociation> donations;
+
 
     public Recipient() {}
 

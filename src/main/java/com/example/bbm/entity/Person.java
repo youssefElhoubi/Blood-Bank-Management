@@ -2,6 +2,7 @@ package com.example.bbm.entity;
 
 import com.example.bbm.enums.BloodType;
 import com.example.bbm.enums.Gender;
+
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
@@ -12,24 +13,26 @@ import java.util.UUID;
 public abstract class Person {
     @Id
     private UUID id = UUID.randomUUID();
-    @Column(name = "first_name",nullable = false,length = 50)
+    @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
-    @Column(name = "last_name",nullable = false,length = 50)
+    @Column(name = "last_name", nullable = false, length = 50)
     private String lastName;
-    @Column(name = "email",nullable = false,length = 50)
+    @Column(name = "email", nullable = false, length = 50)
     private String email;
-    @Column(name = "phone_number",nullable = false,length = 15)
+    @Column(name = "password", nullable = false, length = 100)
+    private String password;
+    @Column(name = "phone_number", nullable = false, length = 15)
     private String phoneNumber;
-    @Column(name = "date_of_birth",nullable = false)
+    @Column(name = "date_of_birth", nullable = false)
     private LocalDateTime dateOfBirth;
     @Enumerated(EnumType.STRING)
-    @Column(name="gender",nullable = false)
+    @Column(name = "gender", nullable = false)
     private Gender gender;
     @Enumerated(EnumType.STRING)
-    @Column(name= "blood_type",nullable = false)
+    @Column(name = "blood_type", nullable = false)
     private BloodType bloodType;
-    @Column(name="registration_date",nullable = false)
-    private LocalDateTime registrationDate =  LocalDateTime.now();
+    @Column(name = "registration_date", nullable = false)
+    private LocalDateTime registrationDate = LocalDateTime.now();
 
     public Person(UUID id, String firstName, String lastName, String email, String phoneNumber, LocalDateTime dateOfBirth, Gender gender, BloodType bloodType, LocalDateTime registrationDate) {
         this.id = id;
