@@ -19,8 +19,6 @@ public abstract class Person {
     private String lastName;
     @Column(name = "email", nullable = false, length = 50)
     private String email;
-    @Column(name = "password", nullable = false, length = 100)
-    private String password;
     @Column(name = "phone_number", nullable = false, length = 15)
     private String phoneNumber;
     @Column(name = "date_of_birth", nullable = false)
