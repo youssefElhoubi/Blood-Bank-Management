@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.UUID;
 
-public class RecippientDAO {
+public class RecipientDAO {
     private final EntityManager em = JpaUtil.getEntityManager();
 
     private RecipientDTO toDTO(Recipient recipient) {
@@ -110,9 +110,8 @@ public class RecippientDAO {
         }
     }
     public List<RecipientDTO> findAllOrderedByMedicalCondition() {
-        EntityManager em = JpaUtil.getEntityManager();
         try {
-            String jpql = " SELECT r FROM Recipient r ORDER BY CASE WHEN r.medicalCondition = com.example.bbm.enums.MedicalCondition.CRITICAL THEN 1 WHEN r.medicalCondition = com.example.bbm.enums.MedicalCondition.URGENT THEN 2 WHEN r.medicalCondition = com.example.bbm.enums.MedicalCondition.NORMAL THEN 3 ELSE 4E ND";
+            String jpql = " SELECT r FROM Recipient r ORDER BY CASE WHEN r.medicalCondition = com.example.bbm.enums.MedicalCondition.CRITICAL THEN 1 WHEN r.medicalCondition = com.example.bbm.enums.MedicalCondition.URGENT THEN 2 WHEN r.medicalCondition = com.example.bbm.enums.MedicalCondition.NORMAL THEN 3 ELSE 4 END";
             List<Recipient> recipient =  em.createQuery(jpql, Recipient.class).getResultList();
             return recipient.stream().map(this::toDTO).collect(java.util.stream.Collectors.toList());
         } finally {
@@ -120,11 +119,21 @@ public class RecippientDAO {
         }
     }
     public List<RecipientDTO> findAllOrderedByState() {
-        EntityManager em = JpaUtil.getEntityManager();
         try {
-            String jpql = " SELECT r FROM Recipient r ORDER BY CASE WHEN r.state = com.example.bbm.enums.State.ACTIVE THEN 1 WHEN r.state = com.example.bbm.enums.State.INACTIVE THEN 2 ELSE 3E ND";
+            String jpql = " SELECT r FROM Recipient r ORDER BY CASE WHEN r.state = com.example.bbm.enums.RecipientState.ACCEPTED THEN 1 WHEN r.state = com.example.bbm.enums.RecipientState.PENDING THEN 2 ELSE 3 END";
             List<Recipient> recipient =  em.createQuery(jpql, Recipient.class).getResultList();
             return recipient.stream().map(this::toDTO).collect(java.util.stream.Collectors.toList());
+        } finally {
+            em.close();
+        }
+    }
+    public RecipientDTO update(RecipientDTO dto) {
+        try {
+            Recipient existing = em.find(Recipient.class, dto.getId());
+            if (existing == null) throw new RuntimeException("Recipient not found");
+            Recipient updated = toEntity(dto);
+            Recipient merged = em.merge(updated);
+            return toDTO(merged);
         } finally {
             em.close();
         }
