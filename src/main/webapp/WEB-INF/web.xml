@@ -3,12 +3,24 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+    <!-- this rout is only for test de comment only if you need to test something-->
+    <!--
+
     <servlet>
-        <servlet-name>Test</servlet-name>
-        <servlet-class>com.example.bbm.Servlets.Test</servlet-class>
+            <servlet-name>Test</servlet-name>
+            <servlet-class>com.example.bbm.Servlets.Test</servlet-class>
+        </servlet>
+        <servlet-mapping>
+            <servlet-name>Test</servlet-name>
+            <url-pattern>/test</url-pattern>
+        </servlet-mapping>
+    -->
+    <servlet>
+        <servlet-name>Home</servlet-name>
+        <servlet-class>com.example.bbm.Servlets.Home</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Test</servlet-name>
-        <url-pattern>/test</url-pattern>
+        <servlet-name>Home</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 </web-app>
