@@ -9,8 +9,7 @@ import java.util.UUID;
 
 public class DonationAssociationDTO {
 
-    private UUID id;
-
+    private Long id;
     @NotNull(message = "Donation date is required")
     @PastOrPresent(message = "Donation date cannot be in the future")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -40,10 +39,10 @@ public class DonationAssociationDTO {
 
     // ---- Constructors ----
     public DonationAssociationDTO() {
-        this.id = UUID.randomUUID();
+
     }
 
-    public DonationAssociationDTO(UUID id, LocalDateTime donationDate, String bloodBagNumber,
+    public DonationAssociationDTO(Long id, LocalDateTime donationDate, String bloodBagNumber,
                                   Double quantity, String nurseName, String donationLocation,
                                   List<DonorDTO> donaiters, RecipientDTO recipient) {
         this.id = id;
@@ -57,11 +56,11 @@ public class DonationAssociationDTO {
     }
 
     // ---- Getters and Setters ----
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

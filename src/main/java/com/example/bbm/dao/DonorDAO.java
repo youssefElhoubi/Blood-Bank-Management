@@ -36,7 +36,7 @@ public class DonorDAO {
 
     private Donor toEntity(DonorDTO dto) {
         Donor donor = new Donor();
-        donor.setId(dto.getId() != null ? dto.getId() : UUID.randomUUID());
+        donor.setId(dto.getId());
         donor.setFirstName(dto.getFirstName());
         donor.setLastName(dto.getLastName());
         donor.setEmail(dto.getEmail());
@@ -69,11 +69,17 @@ public class DonorDAO {
     }
 
     public List<DonorDTO> findAll() throws Exception {
+
+        EntityManager emg = JpaUtil.getEntityManager();
         try {
-            List<Donor> donors = em.createQuery("SELECT d FROM Donor d", Donor.class).getResultList();
-            return donors.stream().map(this::toDTO).collect(Collectors.toList());
+            List<Donor> donors = em.createQuery("FROM Donor", Donor.class).getResultList();
+
+            return donors.stream()
+                    .map(this::toDTO)
+                    .collect(Collectors.toList());
+
         } finally {
-            em.close();
+            emg.close();
         }
     }
 

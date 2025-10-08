@@ -23,4 +23,12 @@
         <servlet-name>Home</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>Donor</servlet-name>
+        <servlet-class>com.example.bbm.Servlets.Donor</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Donor</servlet-name>
+        <url-pattern>/donor</url-pattern>
+    </servlet-mapping>
 </web-app>

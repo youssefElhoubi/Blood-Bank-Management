@@ -9,14 +9,15 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "donor")
 public class Donor extends Person {
-    @Column(name = "weight",nullable = false)
-    private double weight;
+
+    @Column(name = "weight", nullable = false)
+    private Double weight;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "Donor_status",nullable = false)
-    private DonorStatus  donorStatus = DonorStatus.UNAVAILABLE;
+    @Column(name = "donor_status", nullable = false)
+    private DonorStatus donorStatus = DonorStatus.UNAVAILABLE;
 
-    @Column(name = "last_donation_date",nullable = true)
+    @Column(name = "last_donation_date")
     private LocalDateTime lastDonationDate;
 
     @Column(name = "is_pregnant")
@@ -32,8 +33,7 @@ public class Donor extends Person {
     @Column(name = "desize")
     private Desize desize;
 
-    public Donor() {
-    }
+    public Donor() {}
 
     public double getWeight() {
         return weight;

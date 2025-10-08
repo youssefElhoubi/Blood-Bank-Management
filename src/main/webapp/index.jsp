@@ -335,7 +335,8 @@
             <div class="bg-light p-8 rounded-2xl">
                 <div class="flex items-center gap-4 mb-6">
                     <div class="w-16 h-16 bg-primary/20 rounded-full">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Michael_Pirson.jpg" class="object-cover w-full h-full rounded-full" alt="Michael Pirson">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Michael_Pirson.jpg"
+                             class="object-cover w-full h-full rounded-full" alt="Michael ">
                     </div>
                     <div>
                         <div class="font-bold text-gray-900">Sarah Johnson</div>
@@ -350,7 +351,8 @@
             <div class="bg-light p-8 rounded-2xl">
                 <div class="flex items-center gap-4 mb-6">
                     <div class="w-16 h-16 bg-primary/20 rounded-full">
-                        <img src="https://static.honestdocs.id/989x500/webp/system/blog_articles/main_hero_images/000/005/310/original/iStock-913714110_%281%29.jpg" class="object-cover w-full h-full rounded-full" alt="Michael Chen ">
+                        <img src="https://static.honestdocs.id/989x500/webp/system/blog_articles/main_hero_images/000/005/310/original/iStock-913714110_%281%29.jpg"
+                             class="object-cover w-full h-full rounded-full" alt="Michael Chen ">
                     </div>
                     <div>
                         <div class="font-bold text-gray-900">Michael Chen</div>
@@ -365,7 +367,8 @@
             <div class="bg-light p-8 rounded-2xl">
                 <div class="flex items-center gap-4 mb-6">
                     <div class="w-16 h-16 bg-primary/20 rounded-full">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Michael_Pirson.jpg" class="object-cover w-full h-full rounded-full" alt="Michael Pirson">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Michael_Pirson.jpg"
+                             class="object-cover w-full h-full rounded-full" alt="Michael ">
                     </div>
                     <div>
                         <div class="font-bold text-gray-900">Dr. Emily Rodriguez</div>

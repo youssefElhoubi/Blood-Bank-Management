@@ -37,7 +37,6 @@ public class Recipient extends Person {
     @Column(name = "satisfied_date")
     private LocalDateTime satisfiedDate;
 
-
     public Recipient() {}
 
     public MedicalCondition getMedicalCondition() {

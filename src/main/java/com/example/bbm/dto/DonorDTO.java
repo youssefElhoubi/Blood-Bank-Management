@@ -37,7 +37,7 @@ public class DonorDTO extends PersonDTO {
         super();
     }
 
-    public DonorDTO(UUID id, String firstName, String lastName, String email,
+    public DonorDTO(Long id, String firstName, String lastName, String email,
                     String phoneNumber, LocalDateTime dateOfBirth, Gender gender,
                     BloodType bloodType, LocalDateTime registrationDate,
                     Double weight, DonorStatus donorStatus, LocalDateTime lastDonationDate,
@@ -51,6 +51,8 @@ public class DonorDTO extends PersonDTO {
         this.medicalNotes = medicalNotes;
         this.desize = desize;
     }
+
+
 
     // Getters and Setters
     public Double getWeight() {

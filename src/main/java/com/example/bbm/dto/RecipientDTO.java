@@ -45,7 +45,7 @@ public class RecipientDTO extends PersonDTO {
         super();
     }
 
-    public RecipientDTO(UUID id, String firstName, String lastName, String email,
+    public RecipientDTO(Long id, String firstName, String lastName, String email,
                         String phoneNumber, LocalDateTime dateOfBirth, Gender gender,
                         BloodType bloodType, LocalDateTime registrationDate,
                         MedicalCondition medicalCondition, RecipientState state,

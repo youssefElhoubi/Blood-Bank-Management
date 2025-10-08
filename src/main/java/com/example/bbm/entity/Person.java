@@ -10,29 +10,41 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "person")
-public abstract class Person {
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Person {
+
     @Id
-    private UUID id = UUID.randomUUID();
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
+
     @Column(name = "last_name", nullable = false, length = 50)
     private String lastName;
+
     @Column(name = "email", nullable = false, length = 50)
     private String email;
+
     @Column(name = "phone_number", nullable = false, length = 15)
     private String phoneNumber;
+
     @Column(name = "date_of_birth", nullable = false)
     private LocalDateTime dateOfBirth;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false)
     private Gender gender;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "blood_type", nullable = false)
     private BloodType bloodType;
+
     @Column(name = "registration_date", nullable = false)
     private LocalDateTime registrationDate = LocalDateTime.now();
 
-    public Person(UUID id, String firstName, String lastName, String email, String phoneNumber, LocalDateTime dateOfBirth, Gender gender, BloodType bloodType, LocalDateTime registrationDate) {
+    public Person(Long id, String firstName, String lastName, String email, String phoneNumber,
+                  LocalDateTime dateOfBirth, Gender gender, BloodType bloodType, LocalDateTime registrationDate) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -48,11 +60,11 @@ public abstract class Person {
 
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

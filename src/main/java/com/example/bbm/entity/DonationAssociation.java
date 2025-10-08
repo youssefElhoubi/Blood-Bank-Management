@@ -10,9 +10,8 @@ import java.util.UUID;
 public class DonationAssociation {
     @Id
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
-
-    @Temporal(TemporalType.DATE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     @Column(name = "donation_date")
     private LocalDateTime donationDate;
 
@@ -42,10 +41,10 @@ public class DonationAssociation {
 
     // Constructors
     public DonationAssociation() {
-        this.id = UUID.randomUUID();
+
     }
 
-    public DonationAssociation(UUID id, LocalDateTime donationDate, String bloodBagNumber, Double quantity, String nurseName, String donationLocation, List<Donor> donaiters, Recipient recipient) {
+    public DonationAssociation(Long id, LocalDateTime donationDate, String bloodBagNumber, Double quantity, String nurseName, String donationLocation, List<Donor> donaiters, Recipient recipient) {
         this.id = id;
         this.donationDate = donationDate;
         this.bloodBagNumber = bloodBagNumber;
@@ -56,11 +55,11 @@ public class DonationAssociation {
         this.recipient = recipient;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

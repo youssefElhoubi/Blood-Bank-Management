@@ -10,8 +10,7 @@ import java.util.UUID;
 
 public abstract class PersonDTO {
 
-    private UUID id;
-
+    private Long id;
     @NotBlank(message = "First name is required")
     @Size(max = 50, message = "First name must not exceed 50 characters")
     private String firstName;
@@ -48,7 +47,7 @@ public abstract class PersonDTO {
     public PersonDTO() {
     }
 
-    public PersonDTO(UUID id, String firstName, String lastName, String email,
+    public PersonDTO(Long id, String firstName, String lastName, String email,
                      String phoneNumber, LocalDateTime dateOfBirth, Gender gender,
                      BloodType bloodType, LocalDateTime registrationDate) {
         this.id = id;
@@ -63,11 +62,11 @@ public abstract class PersonDTO {
     }
 
     // Getters and Setters
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

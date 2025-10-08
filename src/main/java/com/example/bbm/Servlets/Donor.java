@@ -4,7 +4,6 @@ import com.example.bbm.dao.DonorDAO;
 import com.example.bbm.dto.DonorDTO;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,21 +12,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-public class Home extends HttpServlet {
-public String message;
+public class Donor extends HttpServlet {
+    private DonorDTO donerDTO;
 
-public void init() {message = "Hello World!";}
+public void init() {
+    donerDTO = new DonorDTO();
+}
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         try {
             List<DonorDTO> donors = new DonorDAO().findAll();
+
+            donors.stream().forEach(d -> {
+                System.out.println(d.getFirstName());
+            });
+            request.setAttribute("donors", donors);
+            RequestDispatcher despatch = request.getRequestDispatcher("pages/donor.jsp");
+            despatch.forward(request, response);
+
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
-        RequestDispatcher dispacher  = request.getRequestDispatcher("index.jsp");
-        dispacher.forward(request, response);
     }
 public void destroy(){}
 
