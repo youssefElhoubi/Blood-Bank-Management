@@ -5,6 +5,7 @@ import com.example.bbm.entity.Person;
 import com.example.bbm.util.JpaUtil;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,9 +44,13 @@ public class PersonDAO {
     // ✅ Create (Insert)
     public void save(PersonDTO dto) throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
+        EntityTransaction tx = em.getTransaction();
         try {
+            tx.begin(); // 🔹 start transaction
             em.persist(toEntity(dto));
+            tx.commit(); // 🔹 commit after success
         } catch (Exception e) {
+            if (tx.isActive()) tx.rollback(); // 🔹 rollback on error
             throw new Exception("Failed to save person: " + e.getMessage(), e);
         } finally {
             em.close();
@@ -81,7 +86,9 @@ public class PersonDAO {
     // ✅ Update
     public void update(PersonDTO dto) throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
+        EntityTransaction tx = em.getTransaction();
         try {
+            tx.begin();
             Person existing = em.find(Person.class, dto.getId());
             if (existing == null) throw new Exception("Person not found with ID " + dto.getId());
 
@@ -95,7 +102,9 @@ public class PersonDAO {
             existing.setRegistrationDate(dto.getRegistrationDate());
 
             em.merge(existing);
+            tx.commit();
         } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
             throw new Exception("Failed to update person: " + e.getMessage(), e);
         } finally {
             em.close();
@@ -105,12 +114,16 @@ public class PersonDAO {
     // ✅ Delete
     public void delete(Long id) throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
+        EntityTransaction tx = em.getTransaction();
         try {
+            tx.begin();
             Person person = em.find(Person.class, id);
             if (person != null) {
                 em.remove(person);
             }
+            tx.commit();
         } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
             throw new Exception("Failed to delete person: " + e.getMessage(), e);
         } finally {
             em.close();

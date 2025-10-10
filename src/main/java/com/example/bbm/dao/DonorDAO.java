@@ -57,18 +57,14 @@ public class DonorDAO {
 
     public DonorDTO create(DonorDTO dto) throws Exception {
         try {
-            em.getTransaction().begin(); // ✅ Start transaction
-
+            em.getTransaction().begin();
             Donor donor = toEntity(dto);
             em.persist(donor);
-
-            em.getTransaction().commit(); // ✅ Commit the transaction
+            em.getTransaction().commit();
             return toDTO(donor);
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback(); // 🔁 Rollback on error
-            }
-            throw new RuntimeException(e.getMessage());
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw new RuntimeException("Error creating donor: " + e.getMessage(), e);
         } finally {
             em.close();
         }
@@ -91,24 +87,35 @@ public class DonorDAO {
 
     public DonorDTO update(DonorDTO dto) {
         try {
+            em.getTransaction().begin();
+
             Donor existing = em.find(Donor.class, dto.getId());
-            if (existing == null) throw new RuntimeException("Donor not found");
+            if (existing == null)
+                throw new RuntimeException("Donor not found with ID: " + dto.getId());
+
             Donor updated = toEntity(dto);
             Donor merged = em.merge(updated);
+
+            em.getTransaction().commit();
             return toDTO(merged);
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw new RuntimeException("Error updating donor: " + e.getMessage(), e);
         } finally {
             em.close();
         }
     }
 
-    public DonorDTO findById(UUID id) {
+    public DonorDTO findById(Long id) {
+        EntityManager emg = JpaUtil.getEntityManager();
         try {
-            Donor donor = em.find(Donor.class, id);
+            Donor donor = emg.find(Donor.class, id);
             return toDTO(donor);
         } finally {
-            em.close();
+            emg.close();
         }
     }
+
     public DonorDTO findByEmail(String email) {
         try {
             Donor donor = em.createQuery("SELECT d FROM Donor d WHERE d.email = :email", Donor.class)

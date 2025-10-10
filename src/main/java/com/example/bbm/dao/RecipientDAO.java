@@ -5,6 +5,7 @@ import com.example.bbm.entity.Recipient;
 import com.example.bbm.util.JpaUtil;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,10 +60,17 @@ public class RecipientDAO {
     }
 
     public RecipientDTO create(RecipientDTO dto) {
+        EntityManager em = JpaUtil.getEntityManager();
+        EntityTransaction tx = em.getTransaction();
         try {
+            tx.begin();
             Recipient recipient = toEntity(dto);
             em.persist(recipient);
+            tx.commit();
             return toDTO(recipient);
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw new RuntimeException("Failed to create recipient: " + e.getMessage(), e);
         } finally {
             em.close();
         }
@@ -128,12 +136,21 @@ public class RecipientDAO {
         }
     }
     public RecipientDTO update(RecipientDTO dto) {
+        EntityManager em = JpaUtil.getEntityManager();
+        EntityTransaction tx = em.getTransaction();
         try {
+            tx.begin();
             Recipient existing = em.find(Recipient.class, dto.getId());
-            if (existing == null) throw new RuntimeException("Recipient not found");
+            if (existing == null)
+                throw new RuntimeException("Recipient not found with ID " + dto.getId());
+
             Recipient updated = toEntity(dto);
             Recipient merged = em.merge(updated);
+            tx.commit();
             return toDTO(merged);
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw new RuntimeException("Failed to update recipient: " + e.getMessage(), e);
         } finally {
             em.close();
         }
