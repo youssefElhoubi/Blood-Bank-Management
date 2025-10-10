@@ -8,7 +8,7 @@ import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public abstract class PersonDTO {
+public class PersonDTO {
 
     private Long id;
     @NotBlank(message = "First name is required")

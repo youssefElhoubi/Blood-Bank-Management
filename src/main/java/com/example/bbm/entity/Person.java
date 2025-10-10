@@ -44,7 +44,7 @@ public class Person {
     private LocalDateTime registrationDate = LocalDateTime.now();
 
     public Person(Long id, String firstName, String lastName, String email, String phoneNumber,
-                  LocalDateTime dateOfBirth, Gender gender, BloodType bloodType, LocalDateTime registrationDate) {
+                  LocalDateTime dateOfBirth, Gender gender, BloodType bloodType, LocalDateTime registrationDate ) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

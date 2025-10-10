@@ -57,11 +57,17 @@ public class DonorDAO {
 
     public DonorDTO create(DonorDTO dto) throws Exception {
         try {
+            em.getTransaction().begin(); // ✅ Start transaction
+
             Donor donor = toEntity(dto);
             em.persist(donor);
+
+            em.getTransaction().commit(); // ✅ Commit the transaction
             return toDTO(donor);
         } catch (Exception e) {
-            e.printStackTrace();
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback(); // 🔁 Rollback on error
+            }
             throw new RuntimeException(e.getMessage());
         } finally {
             em.close();

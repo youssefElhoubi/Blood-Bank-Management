@@ -31,4 +31,13 @@
         <servlet-name>Donor</servlet-name>
         <url-pattern>/donor</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>Person</servlet-name>
+        <servlet-class>com.example.bbm.Servlets.Person</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Person</servlet-name>
+        <url-pattern>/person</url-pattern>
+    </servlet-mapping>
+
 </web-app>
