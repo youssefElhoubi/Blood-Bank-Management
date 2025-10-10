@@ -93,6 +93,7 @@ public void init() {
                 recipientDTO.setHospital(hospital);
                 recipientDAO.create(recipientDTO);
             }
+            response.sendRedirect("BBM/Donor");
         } catch (Exception e) {
             e.printStackTrace();
         }

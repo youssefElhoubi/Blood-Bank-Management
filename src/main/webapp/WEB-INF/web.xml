@@ -15,6 +15,7 @@
             <url-pattern>/test</url-pattern>
         </servlet-mapping>
     -->
+    <!--    Home page-->
     <servlet>
         <servlet-name>Home</servlet-name>
         <servlet-class>com.example.bbm.Servlets.Home</servlet-class>
@@ -23,6 +24,7 @@
         <servlet-name>Home</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+    <!--Donor page-->
     <servlet>
         <servlet-name>Donor</servlet-name>
         <servlet-class>com.example.bbm.Servlets.Donor</servlet-class>
@@ -31,6 +33,7 @@
         <servlet-name>Donor</servlet-name>
         <url-pattern>/donor</url-pattern>
     </servlet-mapping>
+    <!--Person maker-->
     <servlet>
         <servlet-name>Person</servlet-name>
         <servlet-class>com.example.bbm.Servlets.Person</servlet-class>
@@ -38,6 +41,14 @@
     <servlet-mapping>
         <servlet-name>Person</servlet-name>
         <url-pattern>/person</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DonerDetails</servlet-name>
+        <servlet-class>com.example.bbm.Servlets.DonorDetails</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DonerDetails</servlet-name>
+        <url-pattern>/donorDetails</url-pattern>
     </servlet-mapping>
 
 </web-app>
