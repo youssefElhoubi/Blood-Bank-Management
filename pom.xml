@@ -99,8 +99,8 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <path>BBM/</path>
                     <port>8080</port>
+                    <path>/BBM</path>
                 </configuration>
             </plugin>
         </plugins>

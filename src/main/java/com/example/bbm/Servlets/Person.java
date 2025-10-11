@@ -25,20 +25,16 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "Person", value = "/Person")
 public class Person extends HttpServlet {
-    private PersonDTO personDTO;
     private DonorDTO donorDTO;
     private RecipientDTO recipientDTO;
     private DonorDAO donorDAO;
     private RecipientDAO recipientDAO;
-    private PersonDAO personDAO;
 
 public void init() {
-    personDTO = new PersonDTO();
     donorDTO = new DonorDTO();
     recipientDTO = new RecipientDTO();
     donorDAO = new DonorDAO();
     recipientDAO = new RecipientDAO();
-    personDAO = new PersonDAO();
 }
 
     @Override
@@ -93,7 +89,7 @@ public void init() {
                 recipientDTO.setHospital(hospital);
                 recipientDAO.create(recipientDTO);
             }
-            response.sendRedirect("BBM/Donor");
+            response.sendRedirect("/BBM/donor");
         } catch (Exception e) {
             e.printStackTrace();
         }

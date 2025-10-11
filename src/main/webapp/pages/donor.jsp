@@ -69,7 +69,7 @@
                         </span>
             </td>
             <td class="px-6 py-3 font-semibold text-red-700">
-                <a href="donorDetails?id=<%= d.getId() %>" class="hover:underline">View</a>
+                <a href="BBM/donorDetails?id=<%= d.getId() %>" class="hover:underline">View</a>
             </td>
         </tr>
         <%

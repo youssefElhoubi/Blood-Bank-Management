@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="com.example.bbm.dto.DonorDTO" %>
-<% DonorDTO donor = (DonorDTO) request.getAttribute("donors");  %>
+<%@ page import="com.example.bbm.enums.Gender" %>
+<% DonorDTO donor = (DonorDTO) request.getAttribute("donor"); %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,193 +16,207 @@
     <div class="bg-white rounded-lg shadow-md p-6">
         <h1 class="text-3xl font-bold text-gray-900 mb-6">Blood Donor Information</h1>
 
-        <form id="donorForm" class="space-y-4">
-            FullName
-            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+        <form id="donorForm" class="space-y-4" method="post" action="/BBM/donor">
+
+            <!-- Full name -->
+            <div class="flex items-center flex-col items-stretch justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                 <div class="flex-1">
-                    
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Weight (kg)</label>
-                    <div id="weight-display" class="text-lg text-gray-900">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <div id="fullName-display" class="text-lg text-gray-900">
+                        <%= donor.getFirstName() + " " + donor.getLastName() %>
                     </div>
                     <input
                             type="text"
-                            id="weight-input"
-                            step="0.1"
-                            value=<%=donor.getFirstName() + donor.getLastName()%>
-                                    class="hidden w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                            id="fullName-input"
+                            value="<%= donor.getFirstName() + ' ' + donor.getLastName() %>"
+                            class="hidden w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                     />
                 </div>
-            Weight
+            </div>
+
+            <!-- Weight -->
             <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                 <div class="flex-1">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Weight (kg)</label>
                     <div id="weight-display" class="text-lg text-gray-900">
+                        <%= donor.getWeight() %>
                     </div>
                     <input
                             type="number"
                             id="weight-input"
+                            name="weight"
                             step="0.1"
-                            value=<%=donor.getWeight()%>
+                            value="<%= donor.getWeight() %>"
                             class="hidden w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                     />
                 </div>
                 <button
                         type="button"
-                        onclick="toggleEdit('weight')"
+                        onclick="toggleEdit('weight', event)"
                         class="ml-4 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
                 >
                     Edit
                 </button>
             </div>
 
-            Donor Status
+            <!-- Donor Status -->
+            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Blood Type</label>
+                    <div id="BloodType-display" class="text-lg text-gray-900">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                            <%= donor.getDonorStatus().toString()  %>
+                        </span>
+                    </div>
+                    <select
+                            name="bloodType"
+                            id="BloodType-input"
+                            class="hidden w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                    >
+                        <c:forEach var="bloodType" items="${bloodTypes}">
+                            <option value="${bloodType}">${bloodType}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <button
+                        type="button"
+                        onclick="toggleEdit('BloodType', event)"
+                        class="ml-4 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                >
+                    Edit
+                </button>
+            </div>
             <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                 <div class="flex-1">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Donor Status</label>
                     <div id="donorStatus-display" class="text-lg text-gray-900">
-              <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
-                UNAVAILABLE
-              </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                            <%= donor.getDonorStatus().toString()  %>
+                        </span>
                     </div>
                     <select
+                            name="donorStatus"
                             id="donorStatus-input"
                             class="hidden w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                     >
-                        <option value="AVAILABLE">AVAILABLE</option>
-                        <option value="UNAVAILABLE" selected>UNAVAILABLE</option>
-                        <option value="TEMPORARILY_DEFERRED">TEMPORARILY DEFERRED</option>
-                        <option value="PERMANENTLY_DEFERRED">PERMANENTLY DEFERRED</option>
+                        <c:forEach var="donorStatus" items="${donorStatus}">
+                            <option value="${donorStatus}">${donorStatus}</option>
+                        </c:forEach>
                     </select>
                 </div>
                 <button
                         type="button"
-                        onclick="toggleEdit('donorStatus')"
+                        onclick="toggleEdit('donorStatus', event)"
                         class="ml-4 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
                 >
                     Edit
                 </button>
             </div>
 
-            Last Donation Date
+            <!-- Last Donation Date -->
             <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                 <div class="flex-1">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Last Donation Date</label>
-                    <div id="lastDonationDate-display" class="text-lg text-gray-900">2024-03-15 10:30 AM</div>
+                    <div id="lastDonationDate-display" class="text-lg text-gray-900">
+                        <%= donor.getLastDonationDate() != null ? donor.getLastDonationDate() : "No donation yet" %>
+                    </div>
                     <input
-                            type="datetime-local"
+                            type="date"
                             id="lastDonationDate-input"
-                            value="2024-03-15T10:30"
+                            name="lastDonationDate"
+                            value="<%= donor.getLastDonationDate() != null ? donor.getLastDonationDate() : "" %>"
                             class="hidden w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                     />
                 </div>
                 <button
                         type="button"
-                        onclick="toggleEdit('lastDonationDate')"
+                        onclick="toggleEdit('lastDonationDate', event)"
                         class="ml-4 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
                 >
                     Edit
                 </button>
             </div>
 
-            Is Pregnant
+            <!-- Conditional fields for women -->
+            <% if (donor.getGender() == Gender.FEMALE) { %>
             <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                 <div class="flex-1">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Is Pregnant</label>
                     <div id="isPregnant-display" class="text-lg text-gray-900">
-              <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
-                No
-              </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                            <%= donor.getIsPregnant() ? "Yes" : "No" %>
+                        </span>
                     </div>
                     <select
                             id="isPregnant-input"
+                            name="isPregnant"
                             class="hidden w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                     >
-                        <option value="false" selected>No</option>
-                        <option value="true">Yes</option>
+                        <option value="false" <%= !donor.getIsPregnant() ? "selected" : "" %>>No</option>
+                        <option value="true" <%= donor.getIsPregnant() ? "selected" : "" %>>Yes</option>
                     </select>
                 </div>
                 <button
                         type="button"
-                        onclick="toggleEdit('isPregnant')"
+                        onclick="toggleEdit('isPregnant', event)"
                         class="ml-4 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
                 >
                     Edit
                 </button>
             </div>
-
-            Is Breastfeeding
             <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                 <div class="flex-1">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Is Breastfeeding</label>
-                    <div id="isBreastfeeding-display" class="text-lg text-gray-900">
-              <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
-                No
-              </span>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Is Breast Feeding</label>
+                    <div id="IsBreastfeeding-display" class="text-lg text-gray-900">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                            <%= donor.getIsBreastfeeding() ? "Yes" : "No" %>
+                        </span>
                     </div>
                     <select
-                            id="isBreastfeeding-input"
+                            id="IsBreastfeeding-input"
+                            name="IsBreastfeeding"
                             class="hidden w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                     >
-                        <option value="false" selected>No</option>
-                        <option value="true">Yes</option>
+                        <option value="false" <%= !donor.getIsBreastfeeding() ? "selected" : "" %>>No</option>
+                        <option value="true" <%= donor.getIsBreastfeeding() ? "selected" : "" %>>Yes</option>
                     </select>
                 </div>
                 <button
                         type="button"
-                        onclick="toggleEdit('isBreastfeeding')"
+                        onclick="toggleEdit('IsBreastfeeding', event)"
                         class="ml-4 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
                 >
                     Edit
                 </button>
             </div>
 
-            Medical Notes
+            <% } %>
+
+            <!-- Medical Notes -->
             <div class="flex items-start justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                 <div class="flex-1">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Medical Notes</label>
-                    <div id="medicalNotes-display" class="text-lg text-gray-900">No allergies reported. Regular donor.</div>
+                    <div id="medicalNotes-display" class="text-lg text-gray-900">
+                        <%= donor.getMedicalNotes() != null ? donor.getMedicalNotes() : "There are no medical notes yet" %>
+                    </div>
                     <textarea
                             id="medicalNotes-input"
                             maxlength="500"
                             rows="3"
                             class="hidden w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                    >No allergies reported. Regular donor.</textarea>
+                    ><%= donor.getMedicalNotes() != null ? donor.getMedicalNotes() : "" %></textarea>
                     <div id="medicalNotes-counter" class="hidden text-sm text-gray-500 mt-1">0/500 characters</div>
                 </div>
                 <button
                         type="button"
-                        onclick="toggleEdit('medicalNotes')"
+                        onclick="toggleEdit('medicalNotes', event)"
                         class="ml-4 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
                 >
                     Edit
                 </button>
             </div>
 
-            Desize
-            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                <div class="flex-1">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Desize</label>
-                    <div id="desize-display" class="text-lg text-gray-900">MEDIUM</div>
-                    <select
-                            id="desize-input"
-                            class="hidden w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                    >
-                        <option value="SMALL">SMALL</option>
-                        <option value="MEDIUM" selected>MEDIUM</option>
-                        <option value="LARGE">LARGE</option>
-                        <option value="EXTRA_LARGE">EXTRA LARGE</option>
-                    </select>
-                </div>
-                <button
-                        type="button"
-                        onclick="toggleEdit('desize')"
-                        class="ml-4 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
-                >
-                    Edit
-                </button>
-            </div>
-
-            Submit Button (Hidden by default)
+            <!-- Submit Button -->
             <div id="submitContainer" class="hidden pt-6 border-t border-gray-200">
                 <button
                         type="submit"
@@ -217,42 +233,26 @@
     let hasChanges = false;
     const originalValues = {};
 
-    // Store original values
     document.querySelectorAll('input, select, textarea').forEach(input => {
         originalValues[input.id] = input.value;
     });
 
-    function toggleEdit(fieldName) {
-        const display = document.getElementById(`${fieldName}-display`);
-        const input = document.getElementById(`${fieldName}-input`);
+    function toggleEdit(fieldName, event) {
+        event.preventDefault(); // prevent accidental form submission
+        const display = document.getElementById(fieldName + "-display");
+        const input = document.getElementById(fieldName + "-input");
         const button = event.target;
 
         if (display.classList.contains('hidden')) {
             // Save mode
             const newValue = input.value;
 
-            // Update display based on field type
-            if (fieldName === 'donorStatus') {
-                const statusColors = {
-                    'AVAILABLE': 'bg-green-100 text-green-800',
-                    'UNAVAILABLE': 'bg-yellow-100 text-yellow-800',
-                    'TEMPORARILY_DEFERRED': 'bg-orange-100 text-orange-800',
-                    'PERMANENTLY_DEFERRED': 'bg-red-100 text-red-800'
-                };
-                display.innerHTML = `<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${statusColors[newValue]}">${newValue.replace('_', ' ')}</span>`;
-            } else if (fieldName === 'isPregnant' || fieldName === 'isBreastfeeding') {
+            if (fieldName === 'isPregnant' || fieldName === 'isBreastfeeding') {
                 const yesNo = newValue === 'true' ? 'Yes' : 'No';
                 const colorClass = newValue === 'true' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800';
                 display.innerHTML = `<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${colorClass}">${yesNo}</span>`;
             } else if (fieldName === 'lastDonationDate') {
-                const date = new Date(newValue);
-                display.textContent = date.toLocaleString('en-US', {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
+                display.textContent = newValue ? new Date(newValue).toLocaleDateString() : "No donation yet";
             } else {
                 display.textContent = newValue;
             }
@@ -264,7 +264,6 @@
             }
             button.textContent = 'Edit';
 
-            // Check if value changed
             if (originalValues[input.id] !== newValue) {
                 hasChanges = true;
                 document.getElementById('submitContainer').classList.remove('hidden');
@@ -290,33 +289,6 @@
     }
 
     document.getElementById('medicalNotes-input').addEventListener('input', updateCharCounter);
-
-    document.getElementById('donorForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        // Collect all form data
-        const formData = {
-            weight: parseFloat(document.getElementById('weight-input').value),
-            donorStatus: document.getElementById('donorStatus-input').value,
-            lastDonationDate: document.getElementById('lastDonationDate-input').value,
-            isPregnant: document.getElementById('isPregnant-input').value === 'true',
-            isBreastfeeding: document.getElementById('isBreastfeeding-input').value === 'true',
-            medicalNotes: document.getElementById('medicalNotes-input').value,
-            desize: document.getElementById('desize-input').value
-        };
-
-        console.log('Form submitted with data:', formData);
-        alert('Changes saved successfully!');
-
-        // Reset change tracking
-        hasChanges = false;
-        document.getElementById('submitContainer').classList.add('hidden');
-
-        // Update original values
-        document.querySelectorAll('input, select, textarea').forEach(input => {
-            originalValues[input.id] = input.value;
-        });
-    });
 </script>
 </body>
 </html>

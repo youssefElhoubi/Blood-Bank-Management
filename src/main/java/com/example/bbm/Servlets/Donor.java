@@ -4,8 +4,11 @@ import com.example.bbm.dao.DonorDAO;
 import com.example.bbm.dto.DonorDTO;
 import com.example.bbm.enums.BloodType;
 import com.example.bbm.enums.Desize;
+import com.example.bbm.enums.DonorStatus;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,9 +22,10 @@ import javax.servlet.http.HttpServletResponse;
 public class Donor extends HttpServlet {
     private DonorDTO donerDTO;
 
-public void init() {
-    donerDTO = new DonorDTO();
-}
+    public void init() {
+        donerDTO = new DonorDTO();
+
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,6 +44,55 @@ public void init() {
             e.printStackTrace();
         }
     }
-public void destroy(){}
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+
+            String weightParam = request.getParameter("weight");
+            BloodType bloodTypeParam = BloodType.valueOf(request.getParameter("bloodType"));
+            DonorStatus donorStatus = DonorStatus.valueOf(request.getParameter("donorStatus"));
+            String lastDonationDate = request.getParameter("lastDonationDate");
+            Boolean isPregnant = request.getParameter("isPregnant").equals("yes") ? true : false;
+            Boolean isBreastFeeding = request.getParameter("isBreastfeeding").equals("yes") ? true : false;
+            String medicalNotes = request.getParameter("medicalNotes");
+
+            // Convert numeric values
+            Double weight = null;
+            if (weightParam != null && !weightParam.isEmpty()) {
+                weight = Double.parseDouble(weightParam);
+            }
+
+            // Convert boolean values
+
+
+            // Convert date
+            LocalDateTime date = null;
+            if (lastDonationDate != null && !lastDonationDate.isEmpty()) {
+                date = LocalDateTime.parse(lastDonationDate);
+            }
+
+            // Example: You can now use these values to update your donor in DB
+            // (Assuming you have a donor ID in session or request)
+            String donorId = request.getParameter("id"); // if exists
+
+            // Example object population (adjust to your structure)
+            DonorDTO donor = new DonorDTO();
+            donor.setWeight(weight);
+            donor.setDonorStatus(donorStatus);
+            donor.setLastDonationDate(date);
+            donor.setMedicalNotes(medicalNotes);
+            donor.setIsPregnant(isPregnant);
+            donor.setIsBreastfeeding(isBreastFeeding);
+            donor.setBloodType(bloodTypeParam);
+
+            new DonorDAO().update(donor);d
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void destroy() {
+    }
 
 }
