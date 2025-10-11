@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class RecipientDAO {
     private final EntityManager em = JpaUtil.getEntityManager();
@@ -114,6 +115,14 @@ public class RecipientDAO {
                     .getSingleResult();
             return toDTO(recipient);
         } finally {
+            em.close();
+        }
+    }
+    public  List<RecipientDTO> findAll() {
+        try {
+            List<Recipient> recipients = em.createQuery("FROM Recipient r", Recipient.class).getResultList();
+            return recipients.stream().map(this::toDTO).collect(Collectors.toList());
+        }finally {
             em.close();
         }
     }
