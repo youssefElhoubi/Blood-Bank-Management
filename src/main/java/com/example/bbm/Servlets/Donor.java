@@ -85,7 +85,7 @@ public class Donor extends HttpServlet {
             donor.setIsBreastfeeding(isBreastFeeding);
             donor.setBloodType(bloodTypeParam);
 
-            new DonorDAO().update(donor);d
+            new DonorDAO().update(donor);
 
         } catch (Exception e) {
             e.printStackTrace();
