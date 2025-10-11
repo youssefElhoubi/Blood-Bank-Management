@@ -73,7 +73,7 @@ public class Donor extends HttpServlet {
 
             // Example: You can now use these values to update your donor in DB
             // (Assuming you have a donor ID in session or request)
-            String donorId = request.getParameter("id"); // if exists
+            Long donorId = Long.parseLong( request.getParameter("id")); // if exists
 
             // Example object population (adjust to your structure)
             DonorDTO donor = new DonorDTO();
@@ -84,14 +84,13 @@ public class Donor extends HttpServlet {
             donor.setIsPregnant(isPregnant);
             donor.setIsBreastfeeding(isBreastFeeding);
             donor.setBloodType(bloodTypeParam);
-
+            donor.setId(donorId);
             new DonorDAO().update(donor);
-
+            response.sendRedirect("/BBM/donorDetails?id="+donorId);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
     public void destroy() {
     }
 

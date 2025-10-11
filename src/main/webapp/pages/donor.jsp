@@ -15,16 +15,7 @@
 </head>
 <body class="min-h-screen flex flex-col items-center">
 <!-- Header -->
-<header class="w-full bg-red-600 text-white py-5 shadow-lg">
-    <div class="max-w-6xl mx-auto flex justify-between items-center px-4">
-        <h1 class="text-3xl font-bold tracking-wide">❤️ Blood Donation Center</h1>
-        <nav class="space-x-4">
-            <a href="index.jsp" class="hover:underline">Home</a>
-            <a href="registerDonor.jsp" class="hover:underline">Register</a>
-            <a href="donors" class="font-semibold underline">View Donors</a>
-        </nav>
-    </div>
-</header>
+<%@ include file="../components/nav.jsp" %>
 
 <!-- Page Title -->
 <div class="text-center mt-10">
@@ -69,7 +60,7 @@
                         </span>
             </td>
             <td class="px-6 py-3 font-semibold text-red-700">
-                <a href="BBM/donorDetails?id=<%= d.getId() %>" class="hover:underline">View</a>
+                <a href=/"BBM/donorDetails?id=<%= d.getId() %>" class="hover:underline">View</a>
             </td>
         </tr>
         <%

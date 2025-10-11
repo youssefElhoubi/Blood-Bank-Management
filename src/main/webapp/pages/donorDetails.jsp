@@ -12,12 +12,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 min-h-screen py-8 px-4">
+<%@ include file="../components/nav.jsp" %>
 <div class="max-w-3xl mx-auto">
     <div class="bg-white rounded-lg shadow-md p-6">
         <h1 class="text-3xl font-bold text-gray-900 mb-6">Blood Donor Information</h1>
 
         <form id="donorForm" class="space-y-4" method="post" action="/BBM/donor">
-
+            <input hidden="hidden" name="id" value="<%=request.getParameter("id")%>">
             <!-- Full name -->
             <div class="flex items-center flex-col items-stretch justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                 <div class="flex-1">
