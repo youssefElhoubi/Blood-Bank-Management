@@ -66,5 +66,13 @@
         <servlet-name>DonationDetails</servlet-name>
         <url-pattern>/donation/details</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>Donation</servlet-name>
+        <servlet-class>com.example.bbm.Servlets.Donation</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Donation</servlet-name>
+        <url-pattern>/donation</url-pattern>
+    </servlet-mapping>
 
 </web-app>
