@@ -77,7 +77,7 @@ public class RecipientDAO {
         }
     }
 
-    public RecipientDTO findById(UUID id) {
+    public RecipientDTO findById(Long id) {
         try {
             Recipient recipient = em.find(Recipient.class, id);
             return toDTO(recipient);
