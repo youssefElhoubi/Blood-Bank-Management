@@ -9,9 +9,8 @@
             </div>
             <div class="hidden md:flex items-center gap-8">
                 <a href="/BBM/donor" class="text-gray-700 hover:text-primary transition">Donor</a>
-                <a href="/recipient" class="text-gray-700 hover:text-primary transition">Recipient</a>
-                <a href="#impact" class="text-gray-700 hover:text-primary transition">DonationAssociation</a>
-                <a href="#contact" class="text-gray-700 hover:text-primary transition">Contact</a>
+                    <a href="/BBM/recipient" class="text-gray-700 hover:text-primary transition">Recipient</a>
+                <a href="/BBM/donation" class="text-gray-700 hover:text-primary transition">DonationAssociation</a>
                 <button class="bg-primary text-white px-6 py-2 rounded-full hover:bg-secondary transition">Get Started
                 </button>
             </div>
