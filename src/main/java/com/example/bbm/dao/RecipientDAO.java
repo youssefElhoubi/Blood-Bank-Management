@@ -7,7 +7,7 @@ import com.example.bbm.util.JpaUtil;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
-import java.util.UUID;
+
 import java.util.stream.Collectors;
 
 public class RecipientDAO {
@@ -161,6 +161,25 @@ public class RecipientDAO {
             if (tx.isActive()) tx.rollback();
             throw new RuntimeException("Failed to update recipient: " + e.getMessage(), e);
         } finally {
+            em.close();
+        }
+    }
+    public List<RecipientDTO> findPendingRecipients() {
+        try {
+            String jpql = "SELECT r FROM Recipient r where r.state = com.example.bbm.enums.RecipientState.PENDING";
+            List<Recipient> recipients = em.createQuery(jpql, Recipient.class).getResultList();
+            return recipients.stream().map(this::toDTO).collect(Collectors.toList());
+        }finally {
+            em.close();
+        }
+    }
+
+    public List<RecipientDTO> findSatisfiedRecipients() {
+        try {
+            String jpql = "SELECT r FROM Recipient r where r.state = com.example.bbm.enums.RecipientState.ACCEPTED";
+            List<Recipient> recipients = em.createQuery(jpql, Recipient.class).getResultList();
+            return recipients.stream().map(this::toDTO).collect(Collectors.toList());
+        }finally {
             em.close();
         }
     }
