@@ -39,7 +39,7 @@
         </thead>
         <tbody class="divide-y divide-gray-200">
         <%
-            List<RecipientDTO> recipient = (List<RecipientDTO>) request.getAttribute("RecipientDTO");
+            List<RecipientDTO> recipient = (List<RecipientDTO>) request.getAttribute("recipients");
             if (recipient != null && !recipient.isEmpty()) {
                 for (RecipientDTO d : recipient) {
         %>
@@ -60,7 +60,7 @@
                         </span>
             </td>
             <td class="px-6 py-3 font-semibold text-red-700">
-                <a href=/"BBM/RecipientDetails?id=<%= d.getId() %>" class="hover:underline">View</a>
+                <a href="/BBM/RecipientDetails?id=<%= d.getId() %>" class="hover:underline">View</a>
             </td>
         </tr>
         <%

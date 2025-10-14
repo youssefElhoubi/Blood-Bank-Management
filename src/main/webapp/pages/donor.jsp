@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="java.util.*, com.example.bbm.dto.DonorDTO" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="com.example.bbm.enums.MedicalCondition" %>
+<% List<MedicalCondition> connditions = Arrays.asList(MedicalCondition.values()); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,7 +62,7 @@
                         </span>
             </td>
             <td class="px-6 py-3 font-semibold text-red-700">
-                <a href=/"BBM/donorDetails?id=<%= d.getId() %>" class="hover:underline">View</a>
+                <a href="/BBM/donorDetails?id=<%= d.getId() %>" class="hover:underline">View</a>
             </td>
         </tr>
         <%
@@ -209,6 +211,18 @@
             <label class="block text-gray-700">Hospital</label>
             <input type="text" name="hospital" class="w-full border border-gray-300 rounded px-2 py-1" required>
           </div>
+           <div>
+            <label class="block text-gray-700">doctor name</label>
+            <input type="text" name="doctor" class="w-full border border-gray-300 rounded px-2 py-1" required>
+          </div>
+          <div>
+          <label class="block text-gray-700">Medical Condition</label>
+          <select id="medicalCondition" class="w-full border border-gray-300 rounded px-2 py-1" name="medicalCondition" >
+            <%for (MedicalCondition d : connditions ){%>
+            <option value="<%=d%>"><%=d%></option>
+            <%}%>
+            </select>
+            </div>
             <div id="woman"></div>
 
         `;

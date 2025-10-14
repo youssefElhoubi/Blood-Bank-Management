@@ -35,7 +35,7 @@
                 </thead>
                 <tbody>
                 <% List<RecipientDTO> pendingRecipients = (List<RecipientDTO>) request.getAttribute("PendingRecipients");
-                    if (pendingRecipients != null || !pendingRecipients.isEmpty()) {
+                    if (pendingRecipients != null && !pendingRecipients.isEmpty()) {
                         for (RecipientDTO r : pendingRecipients) {
                 %>
                 <tr class="hover:bg-gray-50">
@@ -54,7 +54,7 @@
                     <td class="px-4 py-2 border-b text-yellow-600 font-semibold"><%=r.getState()%>
                     </td>
                     <td class="px-4 py-2 border-b text-center">
-                        <a href="/BBM/makeonation?id=<%r.getId()%>"
+                        <a href="/BBM/makeonation?id=<%=r.getId()%>"
                            class="bg-red-600 text-white px-3 py-1 rounded-lg hover:bg-red-700">
                             make donation
                         </a>
