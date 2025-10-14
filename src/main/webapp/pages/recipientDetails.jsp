@@ -5,7 +5,7 @@
 <%@ page import="com.example.bbm.enums.BloodType" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<% RecipientDTO recipient = (RecipientDTO) request.getAttribute("Recipient"); %>
+<% RecipientDTO recipient = (RecipientDTO) request.getAttribute("recipient"); %>
 <% List<RecipientState> States = Arrays.asList(RecipientState.values()); %>
 <% List<BloodType> BloodTypes = Arrays.asList(BloodType.values()); %>
 <html>
@@ -42,7 +42,7 @@
             <!-- State -->
             <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                 <div class="flex-1">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Weight (kg)</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Recipient Status</label>
                     <div id="state-display" class="text-lg text-gray-900">
                         <%= recipient.getState().toString() %>
                     </div>
@@ -147,14 +147,14 @@
                 <div class="flex-1">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Medical Notes</label>
                     <div id="MedicalCase-display" class="text-lg text-gray-900">
-                        <%= recipient.getMedicalCase() != null ? recipient.getMedicalCase() : "There are no medical notes yet" %>
+                        <%= recipient.getMedicalCondition() != null ? recipient.getMedicalCondition() : "There are no medical notes yet" %>
                     </div>
                     <textarea
                             id="MedicalCase-input"
                             maxlength="500"
                             rows="3"
                             class="hidden w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                    ><%= recipient.getMedicalCase() != null ? recipient.getMedicalCase() : "" %></textarea>
+                    ><%= recipient.getMedicalCondition() != null ? recipient.getMedicalCondition() : "" %></textarea>
                     <div id="MedicalCase-counter" class="hidden text-sm text-gray-500 mt-1">0/500 characters</div>
                 </div>
                 <button
