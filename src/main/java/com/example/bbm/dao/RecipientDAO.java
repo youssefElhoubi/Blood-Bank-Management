@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RecipientDAO {
-    private final EntityManager em = JpaUtil.getEntityManager();
+
 
     private RecipientDTO toDTO(Recipient recipient) {
         return new RecipientDTO(
@@ -78,6 +78,7 @@ public class RecipientDAO {
     }
 
     public RecipientDTO findById(Long id) {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             Recipient recipient = em.find(Recipient.class, id);
             return toDTO(recipient);
@@ -87,6 +88,7 @@ public class RecipientDAO {
     }
 
     public RecipientDTO findByEmail(String email) {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             Recipient recipient = em.createQuery("SELECT r FROM Recipient r WHERE r.email = :email", Recipient.class)
                     .setParameter("email", email)
@@ -98,6 +100,7 @@ public class RecipientDAO {
     }
 
     public RecipientDTO findByPhoneNumber(String phoneNumber) {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             Recipient recipient = em.createQuery("SELECT r FROM Recipient r WHERE r.phoneNumber = :phoneNumber", Recipient.class)
                     .setParameter("phoneNumber", phoneNumber)
@@ -109,6 +112,7 @@ public class RecipientDAO {
     }
 
     public RecipientDTO findByBloodType(String bloodType) {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             Recipient recipient = em.createQuery("SELECT r FROM Recipient r WHERE r.bloodType = :bloodType", Recipient.class)
                     .setParameter("bloodType", bloodType)
@@ -119,6 +123,7 @@ public class RecipientDAO {
         }
     }
     public  List<RecipientDTO> findAll() {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             List<Recipient> recipients = em.createQuery("FROM Recipient r", Recipient.class).getResultList();
             return recipients.stream().map(this::toDTO).collect(Collectors.toList());
@@ -127,6 +132,7 @@ public class RecipientDAO {
         }
     }
     public List<RecipientDTO> findAllOrderedByMedicalCondition() {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             String jpql = " SELECT r FROM Recipient r ORDER BY CASE WHEN r.medicalCondition = com.example.bbm.enums.MedicalCondition.CRITICAL THEN 1 WHEN r.medicalCondition = com.example.bbm.enums.MedicalCondition.URGENT THEN 2 WHEN r.medicalCondition = com.example.bbm.enums.MedicalCondition.NORMAL THEN 3 ELSE 4 END";
             List<Recipient> recipient =  em.createQuery(jpql, Recipient.class).getResultList();
@@ -136,6 +142,7 @@ public class RecipientDAO {
         }
     }
     public List<RecipientDTO> findAllOrderedByState() {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             String jpql = " SELECT r FROM Recipient r ORDER BY CASE WHEN r.state = com.example.bbm.enums.RecipientState.ACCEPTED THEN 1 WHEN r.state = com.example.bbm.enums.RecipientState.PENDING THEN 2 ELSE 3 END";
             List<Recipient> recipient =  em.createQuery(jpql, Recipient.class).getResultList();
@@ -165,6 +172,7 @@ public class RecipientDAO {
         }
     }
     public List<RecipientDTO> findPendingRecipients() {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             String jpql = "SELECT r FROM Recipient r where r.state = com.example.bbm.enums.RecipientState.PENDING";
             List<Recipient> recipients = em.createQuery(jpql, Recipient.class).getResultList();
@@ -175,6 +183,7 @@ public class RecipientDAO {
     }
 
     public List<RecipientDTO> findSatisfiedRecipients() {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             String jpql = "SELECT r FROM Recipient r where r.state = com.example.bbm.enums.RecipientState.ACCEPTED";
             List<Recipient> recipients = em.createQuery(jpql, Recipient.class).getResultList();

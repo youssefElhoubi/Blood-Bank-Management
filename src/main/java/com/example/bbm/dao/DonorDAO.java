@@ -6,11 +6,10 @@ import com.example.bbm.util.JpaUtil;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class DonorDAO {
-    private final EntityManager em = JpaUtil.getEntityManager();
+
 
     private DonorDTO toDTO(Donor donor) {
         if (donor == null) return null;
@@ -56,6 +55,7 @@ public class DonorDAO {
     }
 
     public DonorDTO create(DonorDTO dto) throws Exception {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             em.getTransaction().begin();
             Donor donor = toEntity(dto);
@@ -71,21 +71,20 @@ public class DonorDAO {
     }
 
     public List<DonorDTO> findAll() throws Exception {
-
-        EntityManager emg = JpaUtil.getEntityManager();
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             List<Donor> donors = em.createQuery("FROM Donor", Donor.class).getResultList();
 
             return donors.stream()
                     .map(this::toDTO)
                     .collect(Collectors.toList());
-
         } finally {
-            emg.close();
+            em.close();
         }
     }
 
     public DonorDTO update(DonorDTO dto) {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             em.getTransaction().begin();
 
@@ -117,6 +116,7 @@ public class DonorDAO {
     }
 
     public DonorDTO findByEmail(String email) {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             Donor donor = em.createQuery("SELECT d FROM Donor d WHERE d.email = :email", Donor.class)
                     .setParameter("email", email)
@@ -127,6 +127,7 @@ public class DonorDAO {
         }
     }
     public DonorDTO findByPhoneNumber(String phoneNumber) {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             Donor donor = em.createQuery("SELECT d FROM Donor d WHERE d.phoneNumber = :phoneNumber", Donor.class)
                     .setParameter("phoneNumber", phoneNumber)
@@ -137,6 +138,7 @@ public class DonorDAO {
         }
     }
     public List<DonorDTO> findByBloodType(String bloodType) {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             List<Donor> donors = em.createQuery("SELECT d FROM Donor d WHERE d.bloodType = :bloodType", Donor.class)
                     .setParameter("bloodType", bloodType)
@@ -147,6 +149,7 @@ public class DonorDAO {
         }
     }
     public List<DonorDTO> findAvailableDonors() {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             List<Donor> donors = em.createQuery("SELECT d FROM Donor d WHERE d.donorStatus = 'AVAILABLE'", Donor.class)
                     .getResultList();
@@ -156,6 +159,7 @@ public class DonorDAO {
         }
     }
     public List<DonorDTO> findDonorsByDonorStatus(String donorStatus) {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             List<Donor> donors = em.createQuery("SELECT d FROM Donor d WHERE d.donorStatus = :donorStatus", Donor.class)
                     .setParameter("donorStatus", donorStatus)
