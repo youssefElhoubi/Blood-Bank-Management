@@ -6,10 +6,7 @@ import com.example.bbm.dao.RecipientDAO;
 import com.example.bbm.dto.DonorDTO;
 import com.example.bbm.dto.PersonDTO;
 import com.example.bbm.dto.RecipientDTO;
-import com.example.bbm.enums.BloodType;
-import com.example.bbm.enums.Desize;
-import com.example.bbm.enums.DonorStatus;
-import com.example.bbm.enums.Gender;
+import com.example.bbm.enums.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -51,9 +48,9 @@ public void init() {
             Gender gender = Gender.valueOf(request.getParameter("gender"));
             BloodType bloodType = BloodType.valueOf(request.getParameter("bloodType"));
             Desize desize = Desize.valueOf( request.getParameter("desize"));
-            Double weight = Double.parseDouble(request.getParameter("weight"));
+            Double weight = request.getParameter("weight")!=null ? Double.parseDouble(request.getParameter("weight")): 0  ;
             String persontype = request.getParameter("personType");
-            DonorStatus donorStatus = DonorStatus.valueOf(request.getParameter("donorStatus"));
+            DonorStatus donorStatus = DonorStatus.valueOf(request.getParameter("donorStatus")!=null ? request.getParameter("donorStatus") : DonorStatus.UNAVAILABLE.toString());
             String requiredBloodBags = request.getParameter("requiredBloodBags");
             String hospital = request.getParameter("hospital");
             boolean pregnant = "yes".equalsIgnoreCase(request.getParameter("preg"));
@@ -87,6 +84,9 @@ public void init() {
                 recipientDTO.setRegistrationDate(LocalDateTime.now());
                 recipientDTO.setRequiredBloodBags(Integer.parseInt(requiredBloodBags));
                 recipientDTO.setHospital(hospital);
+                recipientDTO.setDoctorName(request.getParameter("doctor"));
+                recipientDTO.setMedicalCase("medical");
+                recipientDTO.setMedicalCondition(MedicalCondition.valueOf(request.getParameter("medicalCondition")));
                 recipientDAO.create(recipientDTO);
             }
             response.sendRedirect("/BBM/donor");
