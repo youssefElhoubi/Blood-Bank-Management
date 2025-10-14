@@ -23,6 +23,7 @@ public void init() {
         RecipientDTO recipient =  recipientDAO.findById(id);
         request.setAttribute("recipient", recipient);
         RequestDispatcher dispatcher = request.getRequestDispatcher("pages/recipientDetails.jsp");
+        dispatcher.forward(request, response);
     }
 
 public void destroy(){}
