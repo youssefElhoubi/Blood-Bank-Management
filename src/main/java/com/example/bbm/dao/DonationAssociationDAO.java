@@ -14,7 +14,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class DonationAssociationDAO {
-    private final EntityManager em = JpaUtil.getEntityManager();
+
 
     private DonationAssociation toEntity(DonationAssociationDTO dto) {
         if (dto == null) return null;
@@ -144,6 +144,7 @@ public class DonationAssociationDAO {
         );
     }
     public DonationAssociationDTO create(DonationAssociationDTO dto) {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             DonationAssociation donationAssociation = toEntity(dto);
             em.persist(donationAssociation);
@@ -153,6 +154,7 @@ public class DonationAssociationDAO {
         }
     }
     public List<DonationAssociationDTO> findAll() {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             List<DonationAssociation> donationAssociations = em.createQuery("SELECT da FROM DonationAssociation da", DonationAssociation.class).getResultList();
             return donationAssociations.stream().map(this::toDTO).collect(Collectors.toList());
@@ -161,6 +163,7 @@ public class DonationAssociationDAO {
         }
     }
     public DonationAssociationDTO update(DonationAssociationDTO dto) {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             DonationAssociation existing = em.find(DonationAssociation.class, dto.getId());
             if (existing == null) throw new RuntimeException("DonationAssociation not found");
@@ -172,6 +175,7 @@ public class DonationAssociationDAO {
         }
     }
     public DonationAssociationDTO findById(UUID id) {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             DonationAssociation donationAssociation = em.find(DonationAssociation.class, id);
             return toDTO(donationAssociation);
@@ -180,6 +184,7 @@ public class DonationAssociationDAO {
         }
     }
     public List<DonationAssociationDTO> findByDonationDate(String donationDate) {
+        EntityManager em = JpaUtil.getEntityManager();
         try {
             List<DonationAssociation> donationAssociations = em.createQuery("SELECT da FROM DonationAssociation da WHERE da.donationDate = :donationDate", DonationAssociation.class)
                     .setParameter("donationDate", donationDate)
