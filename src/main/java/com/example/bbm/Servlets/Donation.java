@@ -7,6 +7,7 @@ import com.example.bbm.dto.RecipientDTO;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,6 +28,16 @@ public class Donation extends HttpServlet {
         request.setAttribute("PendingRecipients", PendingRecipients);
         RequestDispatcher dispatcher = request.getRequestDispatcher("pages/donation.jsp");
         dispatcher.forward(request, response);
+    }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            String[] ids = request.getParameterValues("donor");
+
+            Long[] longIds = Arrays.stream(ids).map(Long::parseLong).toArray(Long[]::new);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void destroy() {

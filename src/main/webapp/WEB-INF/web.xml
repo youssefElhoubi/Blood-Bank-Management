@@ -82,5 +82,13 @@
         <servlet-name>RecipientDetails</servlet-name>
         <url-pattern>/RecipientDetails</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>MakeDonation</servlet-name>
+        <servlet-class>com.example.bbm.Servlets.MakeDonation</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MakeDonation</servlet-name>
+        <url-pattern>/makeDonation</url-pattern>
+    </servlet-mapping>
 
 </web-app>

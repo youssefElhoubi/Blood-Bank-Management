@@ -21,8 +21,7 @@ public class DonationAssociation {
     @Column(name = "quantity")
     private Double quantity;
 
-    @Column(name = "nurse_name")
-    private String nurseName;
+
 
     @Column(name = "donation_location")
     private String donationLocation;
@@ -49,7 +48,6 @@ public class DonationAssociation {
         this.donationDate = donationDate;
         this.bloodBagNumber = bloodBagNumber;
         this.quantity = quantity;
-        this.nurseName = nurseName;
         this.donationLocation = donationLocation;
         this.donaiters = donaiters;
         this.recipient = recipient;
@@ -85,14 +83,6 @@ public class DonationAssociation {
 
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
-    }
-
-    public String getNurseName() {
-        return nurseName;
-    }
-
-    public void setNurseName(String nurseName) {
-        this.nurseName = nurseName;
     }
 
     public String getDonationLocation() {

@@ -23,9 +23,6 @@ public class DonationAssociationDTO {
     @Positive(message = "Quantity must be a positive number")
     private Double quantity;
 
-    @NotBlank(message = "Nurse name is required")
-    @Size(max = 100, message = "Nurse name must not exceed 100 characters")
-    private String nurseName;
 
     @NotBlank(message = "Donation location is required")
     @Size(max = 150, message = "Donation location must not exceed 150 characters")
@@ -43,13 +40,12 @@ public class DonationAssociationDTO {
     }
 
     public DonationAssociationDTO(Long id, LocalDateTime donationDate, String bloodBagNumber,
-                                  Double quantity, String nurseName, String donationLocation,
+                                  Double quantity,  String donationLocation,
                                   List<DonorDTO> donaiters, RecipientDTO recipient) {
         this.id = id;
         this.donationDate = donationDate;
         this.bloodBagNumber = bloodBagNumber;
         this.quantity = quantity;
-        this.nurseName = nurseName;
         this.donationLocation = donationLocation;
         this.donaiters = donaiters;
         this.recipient = recipient;
@@ -86,14 +82,6 @@ public class DonationAssociationDTO {
 
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
-    }
-
-    public String getNurseName() {
-        return nurseName;
-    }
-
-    public void setNurseName(String nurseName) {
-        this.nurseName = nurseName;
     }
 
     public String getDonationLocation() {

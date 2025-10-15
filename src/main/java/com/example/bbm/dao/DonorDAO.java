@@ -2,6 +2,7 @@ package com.example.bbm.dao;
 
 import com.example.bbm.dto.DonorDTO;
 import com.example.bbm.entity.Donor;
+import com.example.bbm.enums.BloodType;
 import com.example.bbm.util.JpaUtil;
 
 import javax.persistence.EntityManager;
@@ -100,6 +101,15 @@ public class DonorDAO {
         } catch (Exception e) {
             if (em.getTransaction().isActive()) em.getTransaction().rollback();
             throw new RuntimeException("Error updating donor: " + e.getMessage(), e);
+        } finally {
+            em.close();
+        }
+    }
+    public List<DonorDTO> findByBloodType(BloodType bloodType) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            List<Donor> donors = em.createQuery("FROM Donor WHERE bloodType = :bloodType", Donor.class).setParameter("bloodType", bloodType).getResultList();
+            return donors.stream().map(this::toDTO).collect(Collectors.toList());
         } finally {
             em.close();
         }

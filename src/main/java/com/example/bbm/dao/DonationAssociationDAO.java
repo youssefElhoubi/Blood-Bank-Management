@@ -9,6 +9,7 @@ import com.example.bbm.entity.Recipient;
 import com.example.bbm.util.JpaUtil;
 
 import javax.persistence.EntityManager;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -24,7 +25,6 @@ public class DonationAssociationDAO {
         entity.setDonationDate(dto.getDonationDate());
         entity.setBloodBagNumber(dto.getBloodBagNumber());
         entity.setQuantity(dto.getQuantity());
-        entity.setNurseName(dto.getNurseName());
         entity.setDonationLocation(dto.getDonationLocation());
 
         // Convert donors
@@ -137,7 +137,6 @@ public class DonationAssociationDAO {
                 donationAssociation.getDonationDate(),
                 donationAssociation.getBloodBagNumber(),
                 donationAssociation.getQuantity(),
-                donationAssociation.getNurseName(),
                 donationAssociation.getDonationLocation(),
                 donorDTOs,
                 recipientDTO
@@ -174,7 +173,7 @@ public class DonationAssociationDAO {
             em.close();
         }
     }
-    public DonationAssociationDTO findById(UUID id) {
+    public DonationAssociationDTO findById(Long id) {
         EntityManager em = JpaUtil.getEntityManager();
         try {
             DonationAssociation donationAssociation = em.find(DonationAssociation.class, id);
@@ -190,6 +189,19 @@ public class DonationAssociationDAO {
                     .setParameter("donationDate", donationDate)
                     .getResultList();
             return donationAssociations.stream().map(this::toDTO).collect(Collectors.toList());
+        } finally {
+            em.close();
+        }
+    }
+    public void makeDonationAssociation(Long[] ids,Long id) {
+        EntityManager em = JpaUtil.getEntityManager();
+        DonorDAO donorDAO = new DonorDAO();
+        try {
+            List<DonorDTO> donorDTOs = Arrays.stream(ids).map(donorDAO::findById).collect(Collectors.toList());
+            RecipientDTO recipient = new RecipientDAO().findById(id);
+            for(DonorDTO d : donorDTOs) {
+
+            }
         } finally {
             em.close();
         }
