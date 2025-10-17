@@ -145,6 +145,7 @@ public class DonationAssociationDAO {
                 recipientDTO
         );
     }
+
     public DonationAssociationDTO create(DonationAssociationDTO dto) {
         EntityManager em = JpaUtil.getEntityManager();
         try {
@@ -155,6 +156,7 @@ public class DonationAssociationDAO {
             em.close();
         }
     }
+
     public List<DonationAssociationDTO> findAll() {
         EntityManager em = JpaUtil.getEntityManager();
         try {
@@ -164,6 +166,7 @@ public class DonationAssociationDAO {
             em.close();
         }
     }
+
     public DonationAssociationDTO update(DonationAssociationDTO dto) {
         EntityManager em = JpaUtil.getEntityManager();
         try {
@@ -176,6 +179,7 @@ public class DonationAssociationDAO {
             em.close();
         }
     }
+
     public DonationAssociationDTO findById(Long id) {
         EntityManager em = JpaUtil.getEntityManager();
         try {
@@ -185,6 +189,7 @@ public class DonationAssociationDAO {
             em.close();
         }
     }
+
     public List<DonationAssociationDTO> findByDonationDate(String donationDate) {
         EntityManager em = JpaUtil.getEntityManager();
         try {
@@ -196,6 +201,7 @@ public class DonationAssociationDAO {
             em.close();
         }
     }
+
     public void makeDonationAssociation(Long[] donorIds, Long recipientId) {
         EntityManager em = JpaUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -225,13 +231,18 @@ public class DonationAssociationDAO {
             DonationAssociation donation = new DonationAssociation();
             donation.setDonationDate(LocalDateTime.now());
             donation.setBloodBagNumber(java.util.UUID.randomUUID().toString());
-            donation.setQuantity(1.0);
+            donation.setQuantity((double) donorIds.length);
             donation.setDonationLocation("Central Hospital");
             donation.setDonaiters(donors);
             donation.setRecipient(recipient);
             em.persist(donation);
-
             tx.commit();
+            if (recipient.getRequiredBloodBags() == donorIds.length) {
+                recipient.setSatisfiedDate(LocalDateTime.now());
+            }
+
+            recipient.setRequiredBloodBags(recipient.getRequiredBloodBags() - donorIds.length);
+            em.merge(recipient);
             for (Donor donor : donors) {
                 donor.setLastDonationDate(LocalDateTime.now());
                 donor.setDonorStatus(DonorStatus.UNAVAILABLE);
