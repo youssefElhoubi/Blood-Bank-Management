@@ -8,6 +8,8 @@ import com.example.bbm.enums.BloodType;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,8 +23,11 @@ public void init() {}
         response.setContentType("text/html");
         Long id = Long.parseLong(request.getParameter("id"));
         RecipientDTO recipient = new RecipientDAO().findById(id);
-        BloodType bloodType = recipient.getBloodType();
-        List<DonorDTO> donors = new DonorDAO().findByBloodType(bloodType);
+        Set<BloodType> bloodType = recipient.getBloodType().getCompatibleDonors();
+        List<DonorDTO> donors = bloodType.stream()
+                .flatMap(type -> new DonorDAO().findByBloodType(type).stream())
+                .collect(Collectors.toList());
+
         request.setAttribute("donors", donors);
         request.setAttribute("recipient", recipient);
 
