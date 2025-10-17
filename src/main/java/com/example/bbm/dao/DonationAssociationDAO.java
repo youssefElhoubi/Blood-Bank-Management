@@ -6,6 +6,7 @@ import com.example.bbm.dto.RecipientDTO;
 import com.example.bbm.entity.DonationAssociation;
 import com.example.bbm.entity.Donor;
 import com.example.bbm.entity.Recipient;
+import com.example.bbm.enums.DonorStatus;
 import com.example.bbm.util.JpaUtil;
 
 import javax.persistence.EntityManager;
@@ -231,7 +232,11 @@ public class DonationAssociationDAO {
             em.persist(donation);
 
             tx.commit();
-            
+            for (Donor donor : donors) {
+                donor.setLastDonationDate(LocalDateTime.now());
+                donor.setDonorStatus(DonorStatus.UNAVAILABLE);
+                em.merge(donor);
+            }
         } catch (Exception e) {
             if (tx.isActive()) tx.rollback();
             e.printStackTrace();

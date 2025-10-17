@@ -47,7 +47,7 @@
 
         <div class="overflow-x-auto">
             <form method="post" action="/BBM/donation">
-                <input hidden="hidden" name="id">
+                <input hidden="hidden" name="id" value="<%= recipient.getId() %>">
                 <table class="min-w-full border border-gray-200 rounded-lg overflow-hidden">
                     <thead class="bg-green-600 text-white">
                     <tr>

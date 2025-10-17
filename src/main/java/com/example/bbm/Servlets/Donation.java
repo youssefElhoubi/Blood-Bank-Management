@@ -1,5 +1,6 @@
 package com.example.bbm.Servlets;
 
+import com.example.bbm.dao.DonationAssociationDAO;
 import com.example.bbm.dao.DonorDAO;
 import com.example.bbm.dao.RecipientDAO;
 import com.example.bbm.dto.DonorDTO;
@@ -31,10 +32,12 @@ public class Donation extends HttpServlet {
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            Long id = Long.parseLong(request.getParameter("id"));
             String[] ids = request.getParameterValues("donor");
-
             Long[] longIds = Arrays.stream(ids).map(Long::parseLong).toArray(Long[]::new);
-
+            DonationAssociationDAO  dao = new DonationAssociationDAO();
+            dao.makeDonationAssociation(longIds,id);
+            response.sendRedirect("/donation");
         } catch (Exception e) {
             e.printStackTrace();
         }
