@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "Person", value = "/Person")
 public class Person extends HttpServlet {
@@ -45,6 +46,12 @@ public void init() {
             String dateOfBirth = request.getParameter("dateOfBirth");
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDateTime date = LocalDate.parse(dateOfBirth, formatter).atStartOfDay();
+            LocalDateTime eighteenYearsAgo = LocalDateTime.now().minusYears(18);
+            if(!date.isBefore(eighteenYearsAgo)) {
+                HttpSession session = request.getSession();
+                session.setAttribute("age error", "user must be at least 18 years ago.");
+                response.sendRedirect("BBM/donor");
+            }
             Gender gender = Gender.valueOf(request.getParameter("gender"));
             BloodType bloodType = BloodType.valueOf(request.getParameter("bloodType"));
             Desize desize = Desize.valueOf( request.getParameter("desize"));
