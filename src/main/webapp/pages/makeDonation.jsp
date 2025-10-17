@@ -99,5 +99,29 @@
     </div>
     </form>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const maxSelections = <%= recipient.getRequiredBloodBags() %>; // number of needed bags
+        const checkboxes = document.querySelectorAll('input[name="donor"]');
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', function () {
+                const checkedCount = document.querySelectorAll('input[name="donor"]:checked').length;
+
+                if (checkedCount >= maxSelections) {
+                    // disable all unchecked boxes
+                    checkboxes.forEach(box => {
+                        if (!box.checked) {
+                            box.disabled = true;
+                        }
+                    });
+                } else {
+                    // re-enable if fewer are selected
+                    checkboxes.forEach(box => box.disabled = false);
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
