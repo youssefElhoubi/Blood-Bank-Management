@@ -9,6 +9,8 @@ import com.example.bbm.entity.Recipient;
 import com.example.bbm.util.JpaUtil;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -193,15 +195,46 @@ public class DonationAssociationDAO {
             em.close();
         }
     }
-    public void makeDonationAssociation(Long[] ids,Long id) {
+    public void makeDonationAssociation(Long[] donorIds, Long recipientId) {
         EntityManager em = JpaUtil.getEntityManager();
-        DonorDAO donorDAO = new DonorDAO();
-        try {
-            List<DonorDTO> donorDTOs = Arrays.stream(ids).map(donorDAO::findById).collect(Collectors.toList());
-            RecipientDTO recipient = new RecipientDAO().findById(id);
-            for(DonorDTO d : donorDTOs) {
+        EntityTransaction tx = em.getTransaction();
 
+        DonorDAO donorDAO = new DonorDAO();
+        RecipientDAO recipientDAO = new RecipientDAO();
+
+        try {
+            List<DonorDTO> donorDTOs = Arrays.stream(donorIds)
+                    .map(donorDAO::findById)
+                    .collect(Collectors.toList());
+
+            RecipientDTO recipientDTO = recipientDAO.findById(recipientId);
+
+            if (recipientDTO == null) {
+                throw new IllegalArgumentException("Recipient not found with ID: " + recipientId);
             }
+
+            List<Donor> donors = donorDTOs.stream()
+                    .map(dto -> em.find(Donor.class, dto.getId()))
+                    .collect(Collectors.toList());
+
+            Recipient recipient = em.find(Recipient.class, recipientDTO.getId());
+
+            tx.begin();
+
+            DonationAssociation donation = new DonationAssociation();
+            donation.setDonationDate(LocalDateTime.now());
+            donation.setBloodBagNumber(java.util.UUID.randomUUID().toString());
+            donation.setQuantity(1.0);
+            donation.setDonationLocation("Central Hospital");
+            donation.setDonaiters(donors);
+            donation.setRecipient(recipient);
+            em.persist(donation);
+
+            tx.commit();
+            
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            e.printStackTrace();
         } finally {
             em.close();
         }

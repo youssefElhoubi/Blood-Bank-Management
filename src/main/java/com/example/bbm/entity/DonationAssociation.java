@@ -21,8 +21,6 @@ public class DonationAssociation {
     @Column(name = "quantity")
     private Double quantity;
 
-
-
     @Column(name = "donation_location")
     private String donationLocation;
 
