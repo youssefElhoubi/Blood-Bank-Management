@@ -108,7 +108,7 @@ public class DonorDAO {
     public List<DonorDTO> findByBloodType(BloodType bloodType) {
         EntityManager em = JpaUtil.getEntityManager();
         try {
-            List<Donor> donors = em.createQuery("FROM Donor WHERE bloodType = :bloodType", Donor.class).setParameter("bloodType", bloodType).getResultList();
+            List<Donor> donors = em.createQuery("FROM Donor WHERE bloodType = :bloodType AND donorStatus = com.example.bbm.enums.DonorStatus.AVAILABLE ", Donor.class).setParameter("bloodType", bloodType).getResultList();
             return donors.stream().map(this::toDTO).collect(Collectors.toList());
         } finally {
             em.close();

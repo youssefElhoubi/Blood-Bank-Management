@@ -236,18 +236,19 @@ public class DonationAssociationDAO {
             donation.setDonaiters(donors);
             donation.setRecipient(recipient);
             em.persist(donation);
-            tx.commit();
             if (recipient.getRequiredBloodBags() == donorIds.length) {
                 recipient.setSatisfiedDate(LocalDateTime.now());
             }
 
             recipient.setRequiredBloodBags(recipient.getRequiredBloodBags() - donorIds.length);
+            recipient.setCurrentBloodBags(donorIds.length);
             em.merge(recipient);
             for (Donor donor : donors) {
                 donor.setLastDonationDate(LocalDateTime.now());
                 donor.setDonorStatus(DonorStatus.UNAVAILABLE);
                 em.merge(donor);
             }
+            tx.commit();
         } catch (Exception e) {
             if (tx.isActive()) tx.rollback();
             e.printStackTrace();

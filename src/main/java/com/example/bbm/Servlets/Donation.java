@@ -33,11 +33,11 @@ public class Donation extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Long id = Long.parseLong(request.getParameter("id"));
-            String[] ids = request.getParameterValues("donor");
+            String[] ids = request.getParameterValues("donorIds[]");
             Long[] longIds = Arrays.stream(ids).map(Long::parseLong).toArray(Long[]::new);
             DonationAssociationDAO  dao = new DonationAssociationDAO();
             dao.makeDonationAssociation(longIds,id);
-            response.sendRedirect("/donation");
+            response.sendRedirect("/BBM/donation");
         } catch (Exception e) {
             e.printStackTrace();
         }
